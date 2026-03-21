@@ -31,6 +31,18 @@ Users can upload a chest X-ray image, and the system predicts whether the patien
 
 ---
 
+## 📊 Dataset
+
+This project uses the **Chest X-ray Dataset** from Kaggle for training the deep learning model.
+
+* Dataset contains labeled chest X-ray images
+* Used for classification of Normal vs Cancer cases
+* Images are preprocessed and resized to 224x224
+
+🔗 Dataset Source: https://www.kaggle.com/datasets
+
+
+
 ## ▶️ How to Run
 
 ```bash

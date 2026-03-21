@@ -1,172 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>AI Chest Disease Detector</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<title>AI Chest Disease Detector</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+	<!-- Google Font -->
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+	<style>
+		body {
+			margin: 0;
+			font-family: 'Inter', sans-serif;
+			background-color: #f6f9fc;
+		}
 
-        body {
-            height: 100vh;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+		/* HEADER */
+		.header {
+			background-color: #0b5ed7;
+			color: white;
+			padding: 16px 30px;
+			font-size: 18px;
+			font-weight: 600;
+		}
 
-        .card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 30px;
-            width: 420px;
-            text-align: center;
-            color: white;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
+		/* MAIN CONTAINER */
+		.container {
+			max-width: 900px;
+			margin: 40px auto;
+			display: flex;
+			gap: 20px;
+		}
 
-        h1 {
-            margin-bottom: 10px;
-            font-size: 24px;
-        }
+		/* LEFT PANEL */
+		.upload-section {
+			flex: 1;
+			background: white;
+			padding: 25px;
+			border-radius: 10px;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+		}
 
-        p {
-            font-size: 14px;
-            margin-bottom: 20px;
-            color: #ddd;
-        }
+		/* RIGHT PANEL */
+		.result-section {
+			flex: 1;
+			background: white;
+			padding: 25px;
+			border-radius: 10px;
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+		}
 
-        .upload-box {
-            border: 2px dashed #aaa;
-            padding: 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+		h2 {
+			margin-bottom: 10px;
+			font-size: 18px;
+		}
 
-        .upload-box:hover {
-            border-color: #fff;
-        }
+		p {
+			font-size: 14px;
+			color: #666;
+		}
 
-        input {
-            display: none;
-        }
+		/* UPLOAD BOX */
+		.upload-box {
+			margin-top: 15px;
+			height: 120px;
+			/* FIX HEIGHT */
+			border: 2px dashed #0b5ed7;
+			border-radius: 10px;
+			display: flex;
+			/* CENTER ALIGN */
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			cursor: pointer;
+			background: #eef4ff;
+			color: #0b5ed7;
+			font-weight: 500;
+			font-size: 15px;
+			transition: 0.3s;
+		}
 
-        button {
-            margin-top: 15px;
-            padding: 10px 20px;
-            border: none;
-            background: #00c6ff;
-            color: white;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 500;
-        }
+		.upload-box:hover {
+			background: #e0ebff;
+			border-color: #084298;
+		}
 
-        button:hover {
-            background: #0072ff;
-        }
+		input {
+			display: none;
+		}
 
-        img {
-            margin-top: 15px;
-            max-width: 100%;
-            border-radius: 10px;
-        }
+		/* BUTTON */
+		button {
+			margin-top: 15px;
+			width: 100%;
+			padding: 10px;
+			border: none;
+			background: #0b5ed7;
+			color: white;
+			border-radius: 5px;
+			cursor: pointer;
+		}
 
-        .result {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: 600;
-        }
+		button:hover {
+			background: #084298;
+		}
 
-        .normal {
-            color: #00ff9d;
-        }
+		/* IMAGE */
+		img {
+			margin-top: 15px;
+			width: 100%;
+			border-radius: 6px;
+		}
 
-        .cancer {
-            color: #ff4d4d;
-        }
+		/* RESULT BOX */
+		.result-box {
+			margin-top: 20px;
+			padding: 15px;
+			border-radius: 6px;
+			font-weight: 600;
+			font-size: 15px;
+		}
 
-        .loader {
-            margin-top: 15px;
-            display: none;
-        }
-    </style>
+		.normal {
+			background: #e6f9f0;
+			color: #0f9d58;
+		}
+
+		.cancer {
+			background: #fdecea;
+			color: #d93025;
+		}
+
+		/* LOADER */
+		.loader {
+			display: none;
+			margin-top: 10px;
+			color: #0b5ed7;
+		}
+
+		/* FOOTER */
+		.footer {
+			text-align: center;
+			margin-top: 30px;
+			font-size: 12px;
+			color: #999;
+		}
+	</style>
+
+
 </head>
 
 <body>
 
-<div class="card">
-    <h1>AI Chest Disease Detector</h1>
-    <p>Upload chest X-ray to detect disease using AI</p>
+	<div class="header">
+		🏥 Chest X-ray Diagnosis System
+	</div>
 
-    <label class="upload-box">
-        Click to Upload Image
-        <input type="file" id="fileInput">
-    </label>
+	<div class="container">
 
-    <button onclick="predict()">Predict</button>
+		<!-- LEFT SIDE -->
+		<div class="upload-section">
+			<h2>Upload X-ray</h2>
+			<p>Select a chest X-ray image for analysis</p>
 
-    <div class="loader" id="loader">⏳ Processing...</div>
+			<label class="upload-box">
+				Click to Upload Image
+				<input type="file" id="fileInput">
+			</label>
 
-    <img id="preview"/>
+			<button onclick="predict()">Analyze</button>
 
-    <div id="result" class="result"></div>
-</div>
+			<div class="loader" id="loader">Analyzing image...</div>
 
-<script>
-function predict() {
-    const file = document.getElementById("fileInput").files[0];
+			<img id="preview">
+		</div>
 
-    if (!file) {
-        alert("Please upload image");
-        return;
+		<!-- RIGHT SIDE -->
+		<div class="result-section">
+			<h2>Diagnosis Report</h2>
+			<p>AI-generated medical result</p>
+
+			<div id="result" class="result-box"></div>
+		</div>
+
+
+	</div>
+
+	<div class="footer">
+		© 2026 AI Healthcare System | Educational Purpose Only
+	</div>
+
+	<script>
+		function predict() {
+			const file = document.getElementById("fileInput").files[0];
+
+			if (!file) {
+				alert("Please upload image");
+				return;
+			}
+
+			const reader = new FileReader();
+
+			reader.onloadend = function () {
+				const base64 = reader.result.split(',')[1];
+
+				document.getElementById("loader").style.display = "block";
+				document.getElementById("result").innerText = "";
+
+				fetch('/predict', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ image: base64 })
+				})
+					.then(res => res.json())
+					.then(data => {
+    document.getElementById("loader").style.display = "none";
+
+    let resultText = data[0].image;
+    let confidence = data[0].confidence;
+
+    let resultDiv = document.getElementById("result");
+
+    resultDiv.innerText = `Result: ${resultText} (Confidence: ${confidence}%)`;
+
+    if (resultText.includes("Normal")) {
+        resultDiv.className = "result-box normal";
+    } else {
+        resultDiv.className = "result-box cancer";
     }
+});
 
-    const reader = new FileReader();
 
-    reader.onloadend = function () {
-        const base64 = reader.result.split(',')[1];
 
-        document.getElementById("loader").style.display = "block";
-        document.getElementById("result").innerText = "";
+			};
 
-        fetch('/predict', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ image: base64 })
-        })
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById("loader").style.display = "none";
-
-            let resultText = data[0].image;
-            let resultDiv = document.getElementById("result");
-
-            resultDiv.innerText = "Result: " + resultText;
-
-            if (resultText.includes("Normal")) {
-                resultDiv.className = "result normal";
-            } else {
-                resultDiv.className = "result cancer";
-            }
-        });
-    };
-
-    reader.readAsDataURL(file);
-    document.getElementById("preview").src = URL.createObjectURL(file);
-}
-</script>
+			reader.readAsDataURL(file);
+			document.getElementById("preview").src = URL.createObjectURL(file);
+		}
+	</script>
 
 </body>
+
 </html>
