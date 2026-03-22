@@ -9,7 +9,7 @@ class PredictionPipeline:
         self.filename = filename
         self.model = load_model("Artifacts/Model_Training/Trained_Model.h5")
 
-    def predict(self):   # ✅ correct indentation
+    def predict(self):   #  correct indentation
         test_image = image.load_img(self.filename, target_size=(224,224))
         test_image = image.img_to_array(test_image)
 
